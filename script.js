@@ -5,6 +5,10 @@ const countdownOverlay = document.getElementById("countdown");
 const resultModal = document.getElementById("result");
 const modalBackground = document.getElementById("modal-background");
 
+window.onkeydown = function(e){
+  return !(e.keyCode == 32);
+};
+
 // variables
 let userText = "";
 let errorCount = 0;
@@ -26,8 +30,10 @@ const typeController = (e) => {
   // Handle backspace press
   if (newLetter == "Backspace") {
     userText = userText.slice(0, userText.length - 1);
+    // console.log(userText);
     return display.removeChild(display.lastChild);
   }
+  
 
   // these are the valid character we are allowing to type
   const validLetters =
@@ -46,6 +52,7 @@ const typeController = (e) => {
     display.innerHTML += `<span class="green">${newLetter === " " ? "▪" : newLetter}</span>`;
   } else {
     display.innerHTML += `<span class="red">${newLetter === " " ? "▪" : newLetter}</span>`;
+    errorCount++;
   }
 
   // check if given question text is equal to user typed text
@@ -90,9 +97,6 @@ const gameOver = () => {
   // restart everything
   startTime = null;
   errorCount = 0;
-  if(!errorCount){
-    return errorCount++;
-  }
   userText = "";
   display.classList.add("inactive");
 };
